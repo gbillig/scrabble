@@ -24,12 +24,67 @@ function PlayerTiles(props) {
   )
 }
 
+function Slot(props) {
+  const className = props.classes.concat("slot").join(" ");
+
+  return (
+    <div className={className} />
+  )
+}
+
 class Board extends React.Component {
   constructor(props) {
     super(props);
   }
 
-  render() { return <div /> }
+  render() {
+    var slotsTypes = [
+      4, 0, 0, 1, 0, 0, 0, 4, 0, 0, 0, 1, 0, 0, 4,
+      0, 2, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0, 2, 0,
+      0, 0, 2, 0, 0, 0, 1, 0, 1, 0, 0, 0, 2, 0, 0,
+      1, 0, 0, 2, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 1,
+      0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0,
+      0, 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0, 3, 0,
+      0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0,
+      4, 0, 0, 2, 0, 0, 0, 5, 0, 0, 0, 1, 0, 0, 4,
+      0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0,
+      0, 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0, 3, 0,
+      0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0,
+      1, 0, 0, 2, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 1,
+      0, 0, 2, 0, 0, 0, 1, 0, 1, 0, 0, 0, 2, 0, 0,
+      0, 2, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0, 2, 0,
+      4, 0, 0, 1, 0, 0, 0, 4, 0, 0, 0, 1, 0, 0, 4,
+    ];
+
+    var slots = slotsTypes.map((slotType, index) => {
+      var classes = [];
+      if ((index + 1) % 15 == 0) {
+        classes.push("end-slot");
+      }
+
+      switch (slotType) {
+        case 1:
+          classes.push("double-letter");
+          break;
+        case 2:
+          classes.push("double-word");
+          break;
+        case 3:
+          classes.push("triple-letter");
+          break;
+        case 4:
+          classes.push("triple-word");
+          break;
+        case 5:
+          classes.push("start-slot");
+          break;
+      }
+
+      return <Slot classes={classes} />;
+    });
+
+    return slots;
+  }
 }
 
 class Game extends React.Component {

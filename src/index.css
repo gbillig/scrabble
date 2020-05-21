@@ -8,6 +8,37 @@ body {
   display: inline;
 }
 
+.game-board {
+  display: grid;
+  grid-template-rows: repeat(15, 50px);
+  grid-template-columns: repeat(15, 50px);
+}
+
+.slot {
+  border: 2px solid #eae1d0;
+  background-color: #d4caaf;
+}
+
+.double-letter {
+  background-color: #b6cbcc;
+}
+
+.triple-letter {
+  background-color: #3da1b1;
+}
+
+.double-word {
+  background-color: #f4baac;
+}
+
+.triple-word {
+  background-color: #fe6147;
+}
+
+.start-slot {
+  background-color: #413134;
+}
+
 .tile-holder {
   display: flex;
   width: 16em;
@@ -27,7 +58,7 @@ body {
   border: 2px solid #a6957b;
   border-radius: 4px;
   justify-content: center;
-  align-items: end;
+  align-items: flex-end;
   background-image: url("img/scrabble_tile.png");
   background-position: center;
   background-size: cover;
