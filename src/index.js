@@ -25,11 +25,9 @@ function PlayerTiles(props) {
 }
 
 function Slot(props) {
-  const className = props.classes.concat("slot").join(" ");
+  const classes = "slot " + props.slotType;
 
-  return (
-    <div className={className} />
-  )
+  return <div className={classes} />
 }
 
 class Board extends React.Component {
@@ -57,30 +55,27 @@ class Board extends React.Component {
     ];
 
     var slots = slotsTypes.map((slotType, index) => {
-      var classes = [];
-      if ((index + 1) % 15 == 0) {
-        classes.push("end-slot");
-      }
+      var slotTypeName;
 
       switch (slotType) {
         case 1:
-          classes.push("double-letter");
+          slotTypeName = "double-letter";
           break;
         case 2:
-          classes.push("double-word");
+          slotTypeName = "double-word";
           break;
         case 3:
-          classes.push("triple-letter");
+          slotTypeName = "triple-letter";
           break;
         case 4:
-          classes.push("triple-word");
+          slotTypeName = "triple-word";
           break;
         case 5:
-          classes.push("start-slot");
+          slotTypeName = "start-slot";
           break;
       }
 
-      return <Slot classes={classes} />;
+      return <Slot slotType={slotTypeName} />;
     });
 
     return slots;
