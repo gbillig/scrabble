@@ -65,12 +65,12 @@ class Player extends React.Component {
 function Slot(props) {
   const classes = props.slotType ? "slot " + props.slotType : "slot";
   var boardTile = null;
-  if (props.slotValue) {
-    boardTile = <div className="board-tile">{props.slotValue}</div>
+  if (props.tile) {
+    boardTile = <div className="board-tile">{props.tile.letter}</div>
   }
 
   return (
-    <div className={classes}>
+    <div className={classes} onClick={props.onClick}>
       {boardTile}
     </div>
   );
@@ -123,8 +123,16 @@ class Board extends React.Component {
 
       var slotRow = Math.floor(index / 15);
       var slotCol = index % 15;
+      var tile = this.props.slotTiles[slotRow][slotCol]
 
-      return <Slot slotType={slotTypeName} slotValue={this.props.slotValues[slotRow][slotCol]} key={index} />;
+      return (
+        <Slot
+          slotType={slotTypeName}
+          tile={tile}
+          key={index}
+          onClick={() => this.props.handleClick(slotRow, slotCol)}
+        />
+      );
     });
 
     return slots;
@@ -146,7 +154,7 @@ class Game extends React.Component {
     this.state = {
       remainingTiles: remainingTiles,
       playerTiles: playerTiles,
-      boardSlotValues: [
+      boardSlotTiles: [
         Array(15).fill(null),
         Array(15).fill(null),
         Array(15).fill(null),
@@ -161,7 +169,7 @@ class Game extends React.Component {
         Array(15).fill(null),
         Array(15).fill(null),
         Array(15).fill(null),
-        ['G', 'L', 'E', 'B', 'G', 'L', 'E', 'B', 'G', 'L', 'E', 'B', 'G', 'L', 'E']
+        Array(15).fill(null),
       ],
       selectedTile: null,
     };
@@ -178,20 +186,35 @@ class Game extends React.Component {
     this.setState(newState);
   }
 
-  render() {
-    //var clickFunctions = this.state.playerTiles.map((tile) => this.handlePlayerTileClick(tile));
+  handleBoardTileClick(row, col) {
+    if (!this.state.selectedTile) {
+      return;
+    }
 
+    var newState = this.state;
+    newState.boardSlotTiles[row][col] = this.state.selectedTile;
+    this.state.selectedTile.deselect();
+    this.setState(newState);
+  }
+
+  render() {
     return (
       <div className="game">
         <div className="game-status">
           <span>{this.state.selectedTile ?. letter}</span>
         </div>
         <div className="game-board">
-          <Board slotValues={this.state.boardSlotValues} />
+          <Board
+            slotTiles={this.state.boardSlotTiles}
+            handleClick={(row, col) => { this.handleBoardTileClick(row, col)} }
+          />
         </div>
 
         <div className="players">
-          <Player tiles={this.state.playerTiles} handleClick={(tile) => { this.handlePlayerTileClick(tile)} }/>
+          <Player
+            tiles={this.state.playerTiles}
+            handleClick={(tile) => { this.handlePlayerTileClick(tile)}}
+          />
         </div>
       </div>
     );
